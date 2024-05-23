@@ -1,168 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Homeverse</title>
-
-  <!-- 
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
-
-  <!-- 
-    - custom css link
-  -->
-  <link rel="stylesheet" href="/static/styless.css">
-
-  <!-- 
-    - google font link
-  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-list, .property-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user-item, .property-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .property-item img {
+            display: block;
+            margin: 0 auto 10px;
+            border-radius: 5px;
+        }
+        .property-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .btn-view {
+            background-color: #007bff;
+        }
+        .btn-view:hover {
+            background-color: #0056b3;
+        }
+        .btn-edit {
+            background-color: #28a745;
+        }
+        .btn-edit:hover {
+            background-color: #218838;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .btn-chat {
+            background-color: #ffc107;
+        }
+        .btn-chat:hover {
+            background-color: #e0a800;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        .search-form {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .search-form label {
+            flex: 1 100%;
+        }
+        .search-form input[type="text"],
+        .search-form input[type="number"],
+        .search-form select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .search-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>Welcome to Your Agent Panel, {{ session.agent }}</h1>
+        <h2>Chats with Users</h2>
 
-  <!-- 
-    - #HEADER
-  -->
-
-  <header class="header" data-header>
-
-    <div class="overlay" data-overlay></div>
-
-    <div class="header-top">
-      <div class="container">
-
-        <ul class="header-top-list">
-
-          <li>
-            <a href="mailto:info@homefind.com" class="header-top-link">
-              <ion-icon name="mail-outline"></ion-icon>
-
-              <span>info@homefind.com</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="header-top-link">
-              <ion-icon name="location-outline"></ion-icon>
-
-              <address>15/A, Nest Tower, NYC</address>
-            </a>
-          </li>
-
+        <!-- User chats listing -->
+        <ul class="user-list">
+            {% for user in users %}
+            <li class="user-item">
+                <a href="{{ url_for('chat', uid=user[0], propertyId='None') }}" class="btn btn-chat">{{ user[1] }}</a>
+            </li>
+            {% endfor %}
         </ul>
 
-        <div class="wrapper">
-          <ul class="header-top-social-list">
+        <h2>Properties and User Chats</h2>
 
-            <li>
-              <a href="#" class="header-top-social-link">
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="header-top-social-link">
-                <ion-icon name="logo-twitter"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="header-top-social-link">
-                <ion-icon name="logo-instagram"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="header-top-social-link">
-                <ion-icon name="logo-pinterest"></ion-icon>
-              </a>
-            </li>
-
-          </ul>
-
-        </div>
-
-      </div>
-    </div>
-
-    <div class="header-bottom">
-      <div class="container">
-
-        <a href="#" class="logo">
-          <img src="/static/logo.jpg" alt="Homefind logo" width="290px">
-        </a>
-
-        <nav class="navbar" data-navbar>
-
-          <div class="navbar-top">
-
-            <a href="#" class="logo">
-              <img src="logo.png" alt="Homefind logo">
-            </a>
-
-            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-          </div>
-
-          <div class="navbar-bottom">
-            <ul class="navbar-list">
-
-              <!-- <li>
-                <a href="#dashboard" class="navbar-link" data-nav-link>Dashboard</a>
-              </li> -->
-
-              <li>
-                <a href="#users" class="navbar-link" data-nav-link>Users</a>
-              </li>
-
-              <li>
-                <a href="#properties" class="navbar-link" data-nav-link>Properties</a>
-              </li>
-
-              <!-- <li>
-                <a href="#enquiries" class="navbar-link" data-nav-link>Enquiries</a>
-              </li> -->
-
-              <!-- <li>
-                <a href="#settings" class="navbar-link" data-nav-link>Settings</a>
-              </li> -->
-
+        <!-- Property listings -->
+        {% for property in properties %}
+        <div class="property-item">
+            <h2>{{ property[1] }}</h2>
+            <img src="{{ url_for('static', filename=property[12]) }}" alt="Property Image" height="100" width="100">
+            <p>Price: ${{ property[3] }}</p>
+            <p>Location: {{ property[6] }}</p>
+            <p>Status: {{ property[21] }}</p>
+            
+            <h3>User Chats for {{ property[1] }}</h3>
+            <ul class="user-list">
+                {% for user in users %}
+                <li class="user-item">
+                    <a href="{{ url_for('chat', uid=user[0], propertyId=property[0]) }}" class="btn btn-chat">{{ user[1] }}</a>
+                </li>
+                {% endfor %}
             </ul>
-
-          </div>
-
-        </nav>
-
-      </div>
-    </div>
-
-  </header>
-
-  <main>
-
-    <!-- 
-      - #DASHBOARD
-    -->
-
-    <section class="dashboard" id="dashboard">
-      <div class="container">
-
-        <h2 class="h2 section-title">Dashboard</h2>
-
-        <div class="dashboard-card">
-          <h3 class="h3 card-title">Total Users</h3>
-          <p class="card-text">{{ total_users }}</p>
         </div>
+        {% endfor %}
 
-        <div class="dashboard-card">
-          <h3 class="h3 card-title">Total Properties</h3>
-          <p class="card-text">{{ total_properties }}</p>
+        <!-- Search form -->
+        <form id="search-form" method="post" action="#">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" placeholder="Location">
+            <label for="property_type">Property Type:</label>
+            <select id="property_type" name="property_type">
+                <option value="" selected disabled>Select Property Type</option>
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="condo">Condo</option>
+            </select>
+            <label for="size">Size:</label>
+            <input type="number" id="size" name="size" placeholder="Size">
+            <label for="min_price">Min Price:</label>
+            <input type="number" id="min_price" name="min_price" placeholder="Min Price">
+            <label for="max_price">Max Price:</label>
+            <input type="number" id="max_price" name="max_price" placeholder="Max Price">
+            <input type="submit" value="Search">
+        </form>
+
+        <!-- Buttons for adding property and logout -->
+        <div class="property-actions">
+            <a href="{{ url_for('add_property') }}" class="btn btn-primary">Add Property</a>
+            <a href="{{ url_for('agent_logout') }}" class="btn btn-secondary">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
